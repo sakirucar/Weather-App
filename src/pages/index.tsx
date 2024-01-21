@@ -1,11 +1,15 @@
-import { useState } from "react";
+import { apiKey } from "@/constants";
+import useGetWeatherForecast from "@/services/deneme/hooks/useGetWeatherForecast";
 
 export default function Home() {
+  const { data } = useGetWeatherForecast({
+    key: apiKey,
+    q: "Eskisehir",
+    days: 3,
+    aqi: false,
+    alerts: false,
+  });
+  console.log(data?.current.temp_c);
 
-  const [isOpen,setisOpen]= useState<boolean>(false)
-
-  return (
-    <div className="bg-red-500">Hava proje deneme</div>
-
-  );
+  return <div className="bg-red-500">Hava proje deneme</div>;
 }
