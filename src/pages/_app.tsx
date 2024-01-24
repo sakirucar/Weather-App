@@ -6,7 +6,7 @@ import { SWRConfig } from "swr";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig value={swrDefaultValues}>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </SWRConfig>
   );
 }
