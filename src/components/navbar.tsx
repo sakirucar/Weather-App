@@ -1,11 +1,5 @@
-import React, { Dispatch, SetStateAction } from "react";
-import { Icon } from "@iconify/react";
-import {
-  Autocomplete,
-  FormControlLabel,
-  Switch,
-  TextField,
-} from "@mui/material";
+import React from "react";
+import { Autocomplete, Switch, TextField } from "@mui/material";
 
 interface NavbarProps {
   unit: string;
@@ -46,8 +40,7 @@ const Navbar = (props: NavbarProps) => {
             id="combo-box-demo"
             options={locations}
             getOptionLabel={(option) => option.name}
-            onChange={(handleSearchClick )}
-
+            onChange={handleSearchClick}
             onClick={handleSearchClick}
             sx={{ width: 300 }}
             renderInput={(params) => (
@@ -58,13 +51,9 @@ const Navbar = (props: NavbarProps) => {
               />
             )}
           />
-          <Icon
-            className="cursor-pointer"
-            onClick={handleSearchClick}
-            icon="ic:round-search"
-          />
         </div>
-        <div className="flex justify-end bg-red-500 w-1/3">
+        <div className="flex justify-end items-center bg-red-500 w-1/3">
+          <label>Celcius</label>
           <Switch
             checked={props.unit === "Fahrenheit"}
             onChange={() =>
@@ -73,6 +62,7 @@ const Navbar = (props: NavbarProps) => {
               )
             }
           />
+          <label>Fahrenheit</label>
         </div>
       </nav>
     </div>

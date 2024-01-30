@@ -1,13 +1,22 @@
 import React, { useState } from "react";
-import CurrentWeather from "@/components/currentWeather";
-import Navbar from "@/components/navbar";
 import useGetWeatherForecast from "@/services/deneme/hooks/useGetWeatherForecast";
 import { apiKey } from "@/constants";
 import useGetLocation from "@/services/deneme/hooks/useGetLocation";
+import CurrentWeather from "@/components/CurrentWeather";
+import Navbar from "@/components/Navbar";
+import SunMoon from "@/components/SunMoon";
+import DailyWeather from "@/components/DailyWeather";
+import HourlyWeather from "@/components/HourlyWeather";
+import dynamic from "next/dynamic";
+
+const MapComponent = dynamic(() => import("@/components/Map"), {
+  ssr: false,
+});
 
 const Forecast = () => {
   const [unit, setUnit] = useState<string>("Celcius");
   const [city, setCity] = useState<string>("Aydın");
+  const [clickedIndex, setClickedIndex] = useState<number | null>(0);
 
   const engChars = {
     Ğ: "G",
@@ -36,11 +45,9 @@ const Forecast = () => {
     key: apiKey,
     q: toEN(city),
     days: 10,
-    aqi: false,
-    alerts: false,
+    aqi: true,
+    alerts: true,
   });
-
-  console.log(weatherForecastData);
 
   const {
     data: locationData,
@@ -66,13 +73,42 @@ const Forecast = () => {
         locationData={locationData}
         weatherForecastMutate={weatherForecastMutate}
       />
-      <CurrentWeather
-        unit={unit}
-        city={city}
-        weatherForecastMutate={weatherForecastMutate}
-        weatherForecastLoading={weatherForecastLoading}
-        weatherForecastData={weatherForecastData}
-      />
+      <div>
+        <CurrentWeather
+          unit={unit}
+          city={city}
+          weatherForecastMutate={weatherForecastMutate}
+          weatherForecastLoading={weatherForecastLoading}
+          weatherForecastData={weatherForecastData}
+        />
+        <div>
+          <SunMoon weatherForecastData={weatherForecastData} unit={unit} />
+        </div>
+        <div >
+          <MapComponent
+            position={[
+              weatherForecastData?.location.lat,
+              weatherForecastData?.location.lon,
+            ]}
+          />
+        </div>
+        <div>
+          <DailyWeather
+            unit={unit}
+            weatherForecastData={weatherForecastData}
+            clickedIndex={clickedIndex}
+            setClickedIndex={setClickedIndex}
+          />
+        </div>
+        <div>
+          <HourlyWeather
+            unit={unit}
+            weatherForecastData={weatherForecastData}
+            clickedIndex={clickedIndex}
+            setClickedIndex={setClickedIndex}
+          />
+        </div>
+      </div>
     </>
   );
 };
