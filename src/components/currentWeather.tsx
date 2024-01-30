@@ -1,7 +1,6 @@
 import React from "react";
 import { Icon } from "@iconify/react";
 import CircularProgress from "@mui/material/CircularProgress";
-import DailyWeather from "./dailyWeather";
 
 interface CurrentWeatherProps {
   unit: string;
@@ -17,9 +16,9 @@ const CurrentWeather = (props: CurrentWeatherProps) => {
         {props.weatherForecastLoading ? (
           <CircularProgress />
         ) : (
-          <div className="bg-red-400  w-3/4 h-full p-5">
+          <div className="bg-red-400 w-3/4 h-full p-5">
             <div className="">
-              {props.weatherForecastData?.location.name} /{" "}
+              {props.weatherForecastData?.location.name}/
               {props.weatherForecastData?.location.country}
             </div>
             <div className="flex items-center gap-2">
@@ -92,9 +91,6 @@ const CurrentWeather = (props: CurrentWeatherProps) => {
             </div>
           </div>
         )}
-        <div>
-          <DailyWeather />
-        </div>
       </div>
     </>
   );
