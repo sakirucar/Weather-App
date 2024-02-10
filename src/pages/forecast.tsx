@@ -61,38 +61,57 @@ const Forecast = () => {
   const handleSearch = () => {
     weatherForecastMutate();
   };
+  console.log(weatherForecastData?.location);
 
   return (
     <>
-      <Navbar
-        unit={unit}
-        setUnit={setUnit}
-        city={city}
-        setCity={setCity}
-        onSearch={handleSearch}
-        locationData={locationData}
-        weatherForecastMutate={weatherForecastMutate}
-      />
-      <div>
-        <CurrentWeather
-          unit={unit}
-          city={city}
-          weatherForecastMutate={weatherForecastMutate}
-          weatherForecastLoading={weatherForecastLoading}
-          weatherForecastData={weatherForecastData}
-        />
+      <div
+        className="bg-[url('https://images.theconversation.com/files/232705/original/file-20180820-30593-1nxanpj.jpg')] 
+                    bg-fixed text-white "
+      >
         <div>
-          <SunMoon weatherForecastData={weatherForecastData} unit={unit} />
-        </div>
-        <div >
-          <MapComponent
-            position={[
-              weatherForecastData?.location.lat,
-              weatherForecastData?.location.lon,
-            ]}
+          <Navbar
+            unit={unit}
+            setUnit={setUnit}
+            city={city}
+            setCity={setCity}
+            onSearch={handleSearch}
+            locationData={locationData}
+            weatherForecastMutate={weatherForecastMutate}
           />
         </div>
-        <div>
+
+        <div className="flex justify-center">
+          <CurrentWeather
+            unit={unit}
+            city={city}
+            weatherForecastMutate={weatherForecastMutate}
+            weatherForecastLoading={weatherForecastLoading}
+            weatherForecastData={weatherForecastData}
+          />
+        </div>
+
+        <div className="flex justify-center">
+          <div className="flex justify-between w-5/6 p-5 gap-10">
+            <div className="w-2/5">
+              <MapComponent
+                position={
+                  weatherForecastData?.location
+                    ? [
+                        weatherForecastData?.location.lat as number,
+                        weatherForecastData?.location.lon as number,
+                      ]
+                    : [0, 0]
+                }
+              />
+            </div>
+            <div className="flex justify-center items-center w-2/5">
+              <SunMoon weatherForecastData={weatherForecastData} unit={unit} />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-5">
           <DailyWeather
             unit={unit}
             weatherForecastData={weatherForecastData}

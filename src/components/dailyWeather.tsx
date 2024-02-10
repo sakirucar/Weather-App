@@ -12,16 +12,16 @@ const DailyWeather = (props: DailyWeatherProps) => {
     props.setClickedIndex(props.clickedIndex === index ? null : index);
   };
   return (
-    <div className="flex cursor-pointer bg-red-300 gap-10 p-4">
+    <div className="flex cursor-pointer gap-10 p-4 w-5/6 font-lato rounded-xl">
       {props.weatherForecastData?.forecast.forecastday.map(
         (data, i: number) => (
-          <div key={i} onClick={() => handleClick(i)} className="bg-blue-300 ">
-            <div className="flex bg-green-300">
+          <div key={i} onClick={() => handleClick(i)} className="backdrop-blur-md">
+            <div className="flex px-3 mt-3">
               {i === 0 ? "Today" : i === 1 ? "Tomorrow" : data.date}
             </div>
-            <div className="flex">
+            <div className="flex gap-5 p-3 ">
               <img src={data.day.condition.icon} alt="" />
-              <div className="flex flex-col justify-center bg-red-300">
+              <div className="flex flex-col justify-center ">
                 <div>
                   Max:
                   {props.unit === "Celcius"

@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "@iconify/react";
 
 interface SunMoonProps {
   unit: string;
@@ -16,7 +17,7 @@ const convert12to24 = (time12?: string): string | undefined => {
     } else {
       return `${
         hours === 12 ? "12" : (hours + 12).toString().padStart(2, "0")
-      }:${minutes.toString().padStart(2, "0")}`;
+      }:${minutes?.toString().padStart(2, "0")}`;
     }
   } else {
     return undefined;
@@ -36,6 +37,13 @@ const calculateTimeDifference = (start: string, end: string): string => {
   return `${hours} hours ${minutes} minutes`;
 };
 
+const setIconString = (phase?: string) => {
+  const lowerPhase = phase?.toLowerCase();
+  const kebabPhase = lowerPhase?.replace(/ /g, "-");
+
+  return kebabPhase?.replace(/[^\w-]+/g, "");
+};
+
 const sunMoon = (props: SunMoonProps) => {
   const sunrise: string = props.weatherForecastData?.forecast.forecastday[0]
     .astro.sunrise as string;
@@ -45,16 +53,20 @@ const sunMoon = (props: SunMoonProps) => {
     .astro.moonrise as string;
   const moonset: string = props.weatherForecastData?.forecast.forecastday[0]
     .astro.moonset as string;
+  const moon_phase: string = props.weatherForecastData?.forecast.forecastday[0]
+    .astro.moon_phase as string;
+
+  const phaseIcon: string = setIconString(moon_phase) as string;
 
   const timeDifferenceSun = calculateTimeDifference(sunrise, sunset);
   const timeDifferenceMoon = calculateTimeDifference(moonrise, moonset);
 
   return (
-    <div className="flex flex-col items-center">
-      <label className="flex justify-center">Sun/Moon</label>
-      <div className="flex gap-10">
-        <div>
-          <img src="" alt="" />
+    <div className="flex flex-col items-center w-full h-full backdrop-blur-md font-lato rounded-xl">
+      <label className="flex justify-center">Sun/Moon Cycle</label>
+      <div className="flex w-full h-1/2">
+        <div className="flex flex-col items-center justify-center w-1/4">
+          <Icon fontSize={50} icon="meteocons:sunrise-fill" />
           <label> Sunrise </label>
           <div>
             {props.unit == "Celcius"
@@ -62,9 +74,11 @@ const sunMoon = (props: SunMoonProps) => {
               : sunrise}
           </div>
         </div>
-        <div>{timeDifferenceSun}</div>
-        <div>
-          <img src="" alt="" />
+        <div className="flex justify-center items-center w-1/2">
+          {timeDifferenceSun}
+        </div>
+        <div className="flex flex-col items-center justify-center w-1/4">
+          <Icon fontSize={50} icon="meteocons:sunset" />
           <label> Sunset </label>
           <div>
             {props.unit == "Celcius"
@@ -73,9 +87,9 @@ const sunMoon = (props: SunMoonProps) => {
           </div>
         </div>
       </div>
-      <div className="flex gap-10">
-        <div>
-          <img src="" alt="" />
+      <div className="flex w-full h-1/2">
+        <div className="flex flex-col items-center justify-center w-1/4">
+          <Icon fontSize={50} icon="meteocons:moonrise-fill" />
           <label> Moonrise </label>
           <div>
             {props.unit == "Celcius"
@@ -83,17 +97,15 @@ const sunMoon = (props: SunMoonProps) => {
               : moonrise}
           </div>
         </div>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col justify-center items-center w-1/2">
           <div>{timeDifferenceMoon}</div>
-          <div>
-            {
-              props.weatherForecastData?.forecast.forecastday[0].astro
-                .moon_phase
-            }
+          <div className="flex flex-col items-center">
+            {moon_phase}
+            <Icon fontSize={50} icon={`meteocons:moon-${phaseIcon}-fill`} />
           </div>
         </div>
-        <div>
-          <img src="" alt="" />
+        <div className="flex flex-col items-center justify-center w-1/4">
+          <Icon fontSize={50} icon="meteocons:moonset" />
           <label> Moonset </label>
           <div>
             {props.unit == "Celcius"
