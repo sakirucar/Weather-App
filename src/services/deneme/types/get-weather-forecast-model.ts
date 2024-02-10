@@ -1,7 +1,7 @@
 interface WeatherForecastModel {
   current: CurrentObject;
   forecast: ForecastData;
-  location: any;
+  location: LocationModel;
 }
 
 interface CurrentObject {
@@ -115,4 +115,14 @@ interface ForecastData {
     };
     hour: HourData[];
   }[];
+}
+interface LocationModel {
+  country: string;
+  lat: number ;
+  localtime: string;
+  localtime_epoch: number;
+  lon: number;
+  name: string;
+  region: string;
+  tz_id: string;
 }

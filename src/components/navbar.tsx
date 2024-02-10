@@ -1,4 +1,5 @@
 import React from "react";
+import { Icon } from "@iconify/react";
 import { Autocomplete, Switch, TextField } from "@mui/material";
 
 interface NavbarProps {
@@ -12,8 +13,6 @@ interface NavbarProps {
 }
 
 const Navbar = (props: NavbarProps) => {
-  const options: string[] = ["Celcius", "Fahrenheit"];
-
   const handleSearchClick = () => {
     props.onSearch();
     props.weatherForecastMutate();
@@ -32,40 +31,38 @@ const Navbar = (props: NavbarProps) => {
   const locations: AutocompleteOption[] = props.locationData ?? [];
 
   return (
-    <div className="bg-gray-500">
-      <nav className="flex">
-        <div className="flex">
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={locations}
-            getOptionLabel={(option) => option.name}
-            onChange={handleSearchClick}
-            onClick={handleSearchClick}
-            sx={{ width: 300 }}
-            renderInput={(params) => (
-              <TextField
-                onChange={(e) => props.setCity(e.target.value)}
-                {...params}
-                label="Cities"
-              />
-            )}
-          />
-        </div>
-        <div className="flex justify-end items-center bg-red-500 w-1/3">
-          <label>Celcius</label>
-          <Switch
-            checked={props.unit === "Fahrenheit"}
-            onChange={() =>
-              props.setUnit(
-                props.unit === "Fahrenheit" ? "Celcius" : "Fahrenheit"
-              )
-            }
-          />
-          <label>Fahrenheit</label>
-        </div>
-      </nav>
-    </div>
+    <nav className="flex justify-end bg-gradient-to-b from-sky-500 font-lato">
+      <div className="flex items-center justify-end w-1/2 p-3">
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={locations}
+          getOptionLabel={(option) => option.name}
+          onChange={handleSearchClick}
+          onClick={handleSearchClick}
+          sx={{ width: 300 }}
+          renderInput={(params) => (
+            <TextField className="bg-white rounded-lg"
+              onChange={(e) => props.setCity(e.target.value)}
+              {...params}
+              label="Search Location"
+            />
+          )}
+        />
+      </div>
+      <div className="flex justify-end items-center w-1/2">
+        <Icon fontSize={70} icon="meteocons:celsius-fill" />
+        <Switch
+          checked={props.unit === "Fahrenheit"}
+          onChange={() =>
+            props.setUnit(
+              props.unit === "Fahrenheit" ? "Celcius" : "Fahrenheit"
+            )
+          }
+        />
+        <Icon fontSize={70} icon="meteocons:fahrenheit-fill" />
+      </div>
+    </nav>
   );
 };
 
