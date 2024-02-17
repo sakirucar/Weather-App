@@ -1,73 +1,74 @@
-import React, { useState } from "react";
-import useGetWeatherForecast from "@/services/deneme/hooks/useGetWeatherForecast";
-import { apiKey } from "@/constants";
-import useGetLocation from "@/services/deneme/hooks/useGetLocation";
-import CurrentWeather from "@/components/CurrentWeather";
-import Navbar from "@/components/Navbar";
-import SunMoon from "@/components/SunMoon";
-import DailyWeather from "@/components/DailyWeather";
-import HourlyWeather from "@/components/HourlyWeather";
-import dynamic from "next/dynamic";
+import React, { useState } from 'react'
+import useGetWeatherForecast from '@/services/deneme/hooks/useGetWeatherForecast'
+import { apiKey } from '@/constants'
+import useGetLocation from '@/services/deneme/hooks/useGetLocation'
+import CurrentWeather from '@/components/CurrentWeather'
+import Navbar from '@/components/Navbar'
+import SunMoon from '@/components/SunMoon'
+import DailyWeather from '@/components/DailyWeather'
+import dynamic from 'next/dynamic'
 
-const MapComponent = dynamic(() => import("@/components/Map"), {
-  ssr: false,
-});
+const MapComponent = dynamic(() => import('@/components/Map'), {
+  ssr: false
+})
+const HourlyWeather = dynamic(() => import('@/components/HourlyWeather'), {
+  ssr: false
+})
 
 const Forecast = () => {
-  const [unit, setUnit] = useState<string>("Celcius");
-  const [city, setCity] = useState<string>("Aydın");
-  const [clickedIndex, setClickedIndex] = useState<number | null>(0);
+  const [unit, setUnit] = useState<string>('Celcius')
+  const [city, setCity] = useState<string>('Aydın')
+  const [clickedIndex, setClickedIndex] = useState<number | null>(0)
 
   const engChars = {
-    Ğ: "G",
-    Ü: "U",
-    Ş: "S",
-    İ: "I",
-    Ö: "O",
-    Ç: "C",
-    ğ: "g",
-    ü: "u",
-    ş: "s",
-    ı: "i",
-    ö: "o",
-    ç: "c",
-  };
+    Ğ: 'G',
+    Ü: 'U',
+    Ş: 'S',
+    İ: 'I',
+    Ö: 'O',
+    Ç: 'C',
+    ğ: 'g',
+    ü: 'u',
+    ş: 's',
+    ı: 'i',
+    ö: 'o',
+    ç: 'c'
+  }
 
   const toEN = (str: string) =>
     //@ts-ignore
-    [...str].map((c) => engChars[c as keyof typeof engChars] || c).join("");
+    [...str].map(c => engChars[c as keyof typeof engChars] || c).join('')
 
   const {
     data: weatherForecastData,
     mutate: weatherForecastMutate,
-    isLoading: weatherForecastLoading,
+    isLoading: weatherForecastLoading
   } = useGetWeatherForecast({
     key: apiKey,
     q: toEN(city),
     days: 10,
     aqi: true,
-    alerts: true,
-  });
+    alerts: true
+  })
 
   const {
     data: locationData,
     mutate: LocationMutate,
-    isLoading: LocationLoading,
+    isLoading: LocationLoading
   } = useGetLocation({
     key: apiKey,
-    q: toEN(city),
-  });
+    q: toEN(city)
+  })
 
   const handleSearch = () => {
-    weatherForecastMutate();
-  };
-  console.log(weatherForecastData?.location);
+    weatherForecastMutate()
+  }
 
   return (
     <>
       <div
         className="bg-[url('https://images.theconversation.com/files/232705/original/file-20180820-30593-1nxanpj.jpg')] 
-                    bg-fixed text-white "
+                    bg-fixed text-white"
       >
         <div>
           <Navbar
@@ -81,7 +82,7 @@ const Forecast = () => {
           />
         </div>
 
-        <div className="flex justify-center">
+        <div className='flex justify-center'>
           <CurrentWeather
             unit={unit}
             city={city}
@@ -91,27 +92,24 @@ const Forecast = () => {
           />
         </div>
 
-        <div className="flex justify-center">
-          <div className="flex justify-between w-5/6 p-5 gap-10">
-            <div className="w-2/5">
+        <div className='flex justify-center'>
+          <div className='flex lg:flex-row flex-col justify-between w-5/6 p-5 gap-10'>
+            <div className='w-full lg:w-2/5'>
               <MapComponent
                 position={
                   weatherForecastData?.location
-                    ? [
-                        weatherForecastData?.location.lat as number,
-                        weatherForecastData?.location.lon as number,
-                      ]
+                    ? [weatherForecastData?.location.lat as number, weatherForecastData?.location.lon as number]
                     : [0, 0]
                 }
               />
             </div>
-            <div className="flex justify-center items-center w-2/5">
+            <div className='flex justify-center items-center w-full lg:w-2/5'>
               <SunMoon weatherForecastData={weatherForecastData} unit={unit} />
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center mt-5">
+        <div className='flex justify-center items-center mt-5'>
           <DailyWeather
             unit={unit}
             weatherForecastData={weatherForecastData}
@@ -129,7 +127,7 @@ const Forecast = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Forecast;
+export default Forecast
