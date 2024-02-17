@@ -1,5 +1,5 @@
+// ** Third Party Imports
 import L, { LatLngTuple } from 'leaflet'
-import React from 'react'
 import { MapContainer, Marker, TileLayer } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 

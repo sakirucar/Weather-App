@@ -1,4 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+// ** React Imports
+import { useEffect, useRef, useState } from 'react'
+
+// ** Third Party Imports
 import { Icon } from '@iconify/react'
 
 interface HourlyWeatherProps {

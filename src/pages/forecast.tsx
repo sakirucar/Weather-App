@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
-import useGetWeatherForecast from '@/services/deneme/hooks/useGetWeatherForecast'
-import { apiKey } from '@/constants'
-import useGetLocation from '@/services/deneme/hooks/useGetLocation'
-import CurrentWeather from '@/components/CurrentWeather'
+// ** Next Imports
+import dynamic from 'next/dynamic'
+
+// ** React Imports
+import { useState } from 'react'
+
+// ** Custom Component Imports
 import Navbar from '@/components/Navbar'
+import CurrentWeather from '@/components/CurrentWeather'
 import SunMoon from '@/components/SunMoon'
 import DailyWeather from '@/components/DailyWeather'
-import dynamic from 'next/dynamic'
+
+// ** Constant Imports
+import { apiKey } from '@/constants'
+
+// ** Hook Imports
+import useGetWeatherForecast from '@/services/deneme/hooks/useGetWeatherForecast'
+import useGetLocation from '@/services/deneme/hooks/useGetLocation'
 
 const MapComponent = dynamic(() => import('@/components/Map'), {
   ssr: false
